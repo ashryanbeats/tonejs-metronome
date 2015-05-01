@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello tone</title>
+	<script type="text/javascript" src="./node_modules/tone/build/Tone.js"></script>
+</head>
+<body>
+	<button onclick="start()">Start</button>
+	<button onclick="stop()">Stop</button>
+	<form>
+		<input id="bpm" type="number" value="60">
+		<button type="button" onclick="submitBPM()">Enter BPM</button>
+	</form>
+	<script type="text/javascript">
+		var player = new Tone.Player("./sounds/woodblock.wav").toMaster();
+		Tone.Transport.bpm.value = 60;
+
+		Tone.Buffer.onload = function() {
+			//this will start the player on every quarter note
+			Tone.Transport.setInterval(function(time){
+			    player.start(time);
+			}, "4n");
+			//start the Transport for the events to start
+			Tone.Transport.start();
+		};
+
+		function start() {
+			Tone.Transport.start();
+		}
+
+		function stop() {
+			Tone.Transport.stop();
+		}
+
+		function submitBPM() {
+			var bpm = document.getElementById('bpm').value;
+			Tone.Transport.bpm.value = bpm;
+		}
+
+	</script>
+</body>
+</html>
